@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
     returnUrl: string;
     error = '';
     usersDs: Object;
-    private isDataAvailable: boolean = false;
+    isDataAvailable = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -59,18 +59,5 @@ export class LoginComponent implements OnInit {
                     this.error = error;
                     this.loading = false;
                 });
-    }
-
-    callBackend() {
-        this.userService.findAll().subscribe(
-            (data) => {
-                this.usersDs = data;
-                this.isDataAvailable = true;
-            }, error => {
-                    this.error = error;
-                    alert(error);
-                    this.loading = false;
-                }
-            )
     }
 }
