@@ -8,15 +8,12 @@ import { UserService } from '../_services';
 export class HomeComponent implements OnInit {
     users: User[] = [];
     usersDs: Object;
-    private isDataAvailable: boolean = false;
+    private isDataAvailable = false;
 
     constructor(private userService: UserService) {}
 
     ngOnInit() {
-        this.userService.getAll().pipe(first()).subscribe(users => { 
-            this.users = users; 
-        });
-    }
+           }
 
     callBackend() {
         this.userService.findAll().subscribe(
@@ -24,6 +21,6 @@ export class HomeComponent implements OnInit {
                 this.usersDs = data;
                 this.isDataAvailable = true;
             }
-        )
+        );
     }
 }
