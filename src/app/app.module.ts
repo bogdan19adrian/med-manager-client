@@ -18,6 +18,9 @@ import { FooterComponent } from './ui/footer/footer.component';
 import { SignupComponent } from './signup/signup/signup.component';
 import {SignupModule} from './signup/signup.module';
 import {UiModule} from './ui/ui.module';
+import { DisableIfUnauthorizedDirective } from './_guards/disable-if-unauthorized.directive';
+import { HideIfUnauthorizedDirective } from './_guards/hide-if-unauthorized.directive';
+import {AuthorizationService} from './_guards';
 
 @NgModule({
   imports: [
@@ -32,12 +35,18 @@ import {UiModule} from './ui/ui.module';
     AppComponent,
     HomeComponent,
     LoginComponent,
+    DisableIfUnauthorizedDirective,
+    HideIfUnauthorizedDirective,
+  ],
+  exports: [
+    DisableIfUnauthorizedDirective,
+    HideIfUnauthorizedDirective,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-
+    AuthorizationService
     // provider used to create fake backend
     // fakeBackendProvider
   ],

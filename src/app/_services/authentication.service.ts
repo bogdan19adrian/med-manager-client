@@ -6,20 +6,20 @@ import decode from 'jwt-decode';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private perm: any;
+
+    private perm: any;
+
     constructor(private http: HttpClient) { }
+
     login(username: string, password: string) {
         return this.http.post<any>(AppSettings.BACKEND_URL + '/api/auth/signin', { usernameOrEmail: username, password: password })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.accessToken) {
-                  console.log(decode(user.accessToken));
                   this.perm = decode(user.accessToken).AUTHORITIES_KEY;
-                  console.log(this.perm.split(','));
-                  const permissions = this.perm.split(',');
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
-                    localStorage.setItem('permissions', permissions);
+                    localStorage.setItem('permissions', this.perm);
                 }
                 return user;
             }));
