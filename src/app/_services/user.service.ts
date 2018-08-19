@@ -9,4 +9,8 @@ export class UserService {
     findAll() {
         return this.http.get(AppSettings.BACKEND_URL + '/users/findAll');
     }
+
+  getUserPermissions() {
+    return this.http.get(AppSettings.BACKEND_URL + '/api/auth/getUserPermissions');
+  }
 }

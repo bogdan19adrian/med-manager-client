@@ -8,7 +8,8 @@ import { UserService } from '../_services';
 export class HomeComponent implements OnInit {
     users: User[] = [];
     usersDs: Object;
-    private isDataAvailable = false;
+    isDataAvailable = false;
+    usersperms: any;
 
     constructor(private userService: UserService) {}
 
@@ -23,4 +24,13 @@ export class HomeComponent implements OnInit {
             }
         );
     }
+
+  getPerms() {
+    this.userService.getUserPermissions().subscribe(
+      (data) => {
+        this.usersperms = data;
+        console.log(this.usersperms);
+      }
+    );
+  }
 }
