@@ -23,9 +23,8 @@ export class AuthorizationService {
       // Call API to retrieve the list of actions this user is permitted to perform.
       // In this case, the method returns a Promise, but it could have been implemented as an Observable
       const perms = localStorage.getItem('permissions');
-      const permissions = perms.split(',');
-          this.permissions = permissions;
-          console.log(this.permissions)
+      this.permissions = perms.split(',');
+          console.log(this.permissions);
           resolve();
 
     });

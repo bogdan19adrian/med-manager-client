@@ -8,7 +8,7 @@ import {SignupComponent} from './signup/signup/signup.component';
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard],  data: { auth: 'User-View' }, },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard],  data: { auth: 'USER'}, },
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
