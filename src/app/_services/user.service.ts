@@ -13,4 +13,13 @@ export class UserService {
   getUserPermissions() {
     return this.http.get(AppSettings.BACKEND_URL + '/api/auth/getUserPermissions');
   }
+
+  updateUser(event: any) {
+      return this.http.put(AppSettings.BACKEND_URL + '/users/updateUser', event);
+
+  }
+
+  deleteUser(id: any) {
+    return this.http.delete(AppSettings.BACKEND_URL + '/users/deleteUser/' + id);
+  }
 }

@@ -1,5 +1,5 @@
 ﻿<app-layout><h1>Home</h1>
-  <p>You're logged in with Angular 6 & JWT!!</p>
+  <p><a [routerLink]="['/login']">Logout</a></p>
   <div>
     Users from secure api end point:
     <ul>
@@ -7,22 +7,90 @@
     </ul>
   </div>
 
-  <div>
-    <button (click)="callBackend()">open sessame</button>
-    <div *ngIf="isDataAvailable">
-      Users from secure api end point:
-      <ul>
-        <li *ngFor="let user of usersDs">{{user.firstName}}</li>
-      </ul>
-    </div>
-  </div>
 
-  <div>
-    <button (click)="getPerms()">getPerms sessame</button>
-      Users from secure api end point:
-      <ul>
-        <li *ngFor="let u of usersperms">{{u.authority}}</li>
-      </ul>
+  <p-table [value]="usersDs" selectionMode="single" [(selection)]="selectedUser" (onRowSelect)="onRowSelect($event)"
+           [paginator]="true" [rows]="15">
+    <ng-template pTemplate="caption">
+      List of registered users
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Id</th>
+        <th>User name</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-users>
+      <tr [pSelectableRow]="rowData">
+        <td>{{users.id}}</td>
+        <td>{{users.username}}</td>
+        <td>{{users.firstName}}</td>
+        <td>{{users.lastName}}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+      <div class="row">
+         <div class="col-sm-2" style="text-align:left">
+          <button type="button" pButton icon="fa fa-plus" (click)="edit(rowData)" label="edit"></button>
+        </div>
+        <div class="col-sm-2" style="text-align:left">
+          <button type="button" pButton icon="fa fa-close" (click)="delete()" label="Delete"></button>
+        </div>
+      </div>
+    </ng-template>
+
+  </p-table>
+
+
+  <p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+            [style]="{width: '300px'}">
+    <div class="ui-g ui-fluid" *ngIf="selectedUser">
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label for="username">User Name</label>
+        </div>
+        <div class="ui-g-8">
+          <input pInputText id="username" [(ngModel)]="selectedUser.username"/>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label for="firstName">First Name</label>
+        </div>
+        <div class="ui-g-8">
+          <input pInputText id="firstName" [(ngModel)]="selectedUser.firstName"/>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label for="lastName">Last Name</label>
+        </div>
+        <div class="ui-g-8">
+          <input pInputText id="lastName" [(ngModel)]="selectedUser.lastName"/>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label for="role">Role</label>
+        </div>
+        <div class="ui-g-8">
+          <p-listbox id="role" [options]="roles" [(ngModel)]="selectedRoles" multiple="multiple" checkbox="checkbox"
+                     filter="filter" optionLabel="roleCode">
+            <p-header>Roles</p-header>
+          </p-listbox>
+          <p>Selected Roles: <span *ngFor="let c of selectedRoles" style="margin-right: 10px">{{c.roleCode}}</span></p>
+        </div>
+      </div>
+
     </div>
-  <p><a [routerLink]="['/login']">Logout</a></p>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa fa-check" (click)="save(selectedUser)" label="Save"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+  <p-toast [style]="{marginTop: '80px'}"></p-toast>
+
 </app-layout>
